@@ -1,0 +1,87 @@
+hostname Router1
+!
+!
+!
+!
+!
+!
+!
+!
+no ip cef
+no ipv6 cef
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+spanning-tree mode pvst
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/0.1
+ encapsulation dot1Q 100
+ ip address 192.168.100.1 255.255.255.0
+ standby 1 ip 192.168.100.254
+ standby 1 priority 150
+ standby 1 preempt
+ standby 2 ip 102.16.200.254
+ standby 2 priority 150
+ standby 2 preempt
+!
+interface FastEthernet0/0.2
+ encapsulation dot1Q 200
+ ip address 172.16.200.1 255.255.255.0
+ standby 1 ip 172.16.200.254
+ standby 1 priority 120
+ standby 1 preempt
+!
+interface FastEthernet0/1
+ no ip address
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1.1
+ encapsulation dot1Q 100
+ ip address 10.10.11.1 255.255.255.252
+!
+interface Serial0/1/0
+ no ip address
+ encapsulation ppp
+ clock rate 2000000
+!
+interface Serial0/1/1
+ no ip address
+ clock rate 2000000
+ shutdown
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+router rip
+ network 10.0.0.0
+!
+ip classless
+ip route 0.0.0.0 0.0.0.0 10.10.11.2 
+ip route 103.28.121.0 255.255.255.0 10.10.11.2 
+ip route 172.16.200.0 255.255.255.0 10.10.11.2 
+ip route 172.16.200.0 255.255.255.0 11.10.11.3 
+!
+ip flow-export version 9
+!
+!
